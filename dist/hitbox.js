@@ -43,65 +43,33 @@ var MovableHitbox = /** @class */ (function (_super) {
         return _this;
     }
     MovableHitbox.prototype.tick = function (hitboxes) {
-        /*
-        if (!this.is_blocked_left(hitboxes, this.x + this.xv, this.y)) {
-            this.xv *= this.f;
+        this.change_x(hitboxes, this.xv * this.f);
+        this.change_y(hitboxes, this.yv + this.g);
+    };
+    MovableHitbox.prototype.change_x = function (hitboxes, dx) {
+        var _this = this;
+        this.xv = dx;
+        // change the x on the condition that if we change it, it won't be colliding with another hitbox
+        if (!hitboxes.some(function (hitbox) { return _this.overlaps_with(hitbox, _this.x + dx, _this.y); })) {
             this.x += this.xv;
         }
-
-        if (!this.is_blocked_down(hitboxes, this.x, this.y + this.yv)) {
-            this.yv += this.g;
+    };
+    MovableHitbox.prototype.change_y = function (hitboxes, dy) {
+        var _this = this;
+        // change the y on the condition that if we change it, it won't be colliding with another hitbox
+        if (!hitboxes.some(function (hitbox) { return _this.overlaps_with(hitbox, _this.x, _this.y + dy); })) {
+            this.yv = dy;
             this.y += this.yv;
         }
-        */
-        this.move(hitboxes, Direction.LeftRight, this.xv * this.f);
-        this.move(hitboxes, Direction.UpDown, this.yv + this.g);
-    };
-    MovableHitbox.prototype.move = function (hitboxes, direction, magnitude) {
-        switch (direction) {
-            case Direction.UpDown:
-                if (!this.is_blocked_down(hitboxes, this.x, this.y + magnitude)) {
-                    this.yv = magnitude;
-                    this.y += this.yv;
-                }
-                else {
-                    this.yv = 0;
-                }
-                break;
-            case Direction.LeftRight:
-                this.xv = magnitude;
-                if (!this.is_blocked_left_right(hitboxes, this.x + this.xv, this.y)) {
-                    this.x += this.xv;
-                }
-                break;
-            default:
+        else {
+            this.yv = 0;
         }
     };
-    // is there something blocking hitbox from moving down?
-    MovableHitbox.prototype.is_blocked_down = function (hitboxes, new_x, new_y) {
-        for (var _i = 0, hitboxes_1 = hitboxes; _i < hitboxes_1.length; _i++) {
-            var hitbox = hitboxes_1[_i];
-            if (new_y + this.height > hitbox.y &&
-                new_y < hitbox.y + hitbox.height &&
-                new_x + this.width > hitbox.x &&
-                new_x < hitbox.x + hitbox.width) {
-                //this.y = hitbox.y - this.height; // sets y so that hitbox is right on top of the hitbox below it
-                return true;
-            }
-        }
-        return false;
-    };
-    MovableHitbox.prototype.is_blocked_left_right = function (hitboxes, new_x, new_y) {
-        for (var _i = 0, hitboxes_2 = hitboxes; _i < hitboxes_2.length; _i++) {
-            var hitbox = hitboxes_2[_i];
-            if (new_x + this.width > hitbox.x &&
-                new_x < hitbox.x + hitbox.width &&
-                new_y + this.height > hitbox.y &&
-                new_y < hitbox.y + hitbox.height) {
-                return true;
-            }
-        }
-        return false;
+    MovableHitbox.prototype.overlaps_with = function (hitbox, new_x, new_y) {
+        return new_y + this.height > hitbox.y &&
+            new_y < hitbox.y + hitbox.height &&
+            new_x + this.width > hitbox.x &&
+            new_x < hitbox.x + hitbox.width;
     };
     return MovableHitbox;
 }(Hitbox));

@@ -1,6 +1,5 @@
 import { Player } from "./player.js";
 import { Block } from "./block.js";
-import { Direction } from "./hitbox.js";
 var Game = /** @class */ (function () {
     function Game() {
         this.canvas = document.getElementById("canvas");
@@ -49,11 +48,11 @@ var Game = /** @class */ (function () {
     };
     Game.prototype.handle_input = function () {
         if (this.keys.get("w") && this.player.jumpable(this.block_hitboxes))
-            this.player.hitbox.move(this.block_hitboxes, Direction.UpDown, -3);
+            this.player.hitbox.change_y(this.block_hitboxes, -3);
         if (this.keys.get("a"))
-            this.player.hitbox.move(this.block_hitboxes, Direction.LeftRight, -2.2);
+            this.player.hitbox.change_x(this.block_hitboxes, -2.2);
         if (this.keys.get("d"))
-            this.player.hitbox.move(this.block_hitboxes, Direction.LeftRight, 2.2);
+            this.player.hitbox.change_x(this.block_hitboxes, 2.2);
     };
     return Game;
 }());

@@ -32,66 +32,32 @@ export class MovableHitbox extends Hitbox {
     }
 
     public tick(hitboxes: Hitbox[]): void {
-        /*
-        if (!this.is_blocked_left(hitboxes, this.x + this.xv, this.y)) {
-            this.xv *= this.f;
-            this.x += this.xv;
-        }
-
-        if (!this.is_blocked_down(hitboxes, this.x, this.y + this.yv)) {
-            this.yv += this.g;
-            this.y += this.yv;
-        }
-        */
-        this.move(hitboxes, Direction.LeftRight, this.xv * this.f);
-        this.move(hitboxes, Direction.UpDown, this.yv + this.g);
-    }
-
-    public move(hitboxes: Hitbox[], direction: Direction, magnitude: number): void {
-        switch (direction) {
-            case Direction.UpDown:
-                if (!this.is_blocked_down(hitboxes, this.x, this.y + magnitude)) {
-                    this.yv = magnitude;
-                    this.y += this.yv;
-                } else {
-                    this.yv = 0;
-                }
-                break;
-            case Direction.LeftRight:
-                this.xv = magnitude;
-                if (!this.is_blocked_left_right(hitboxes, this.x + this.xv, this.y)) {
-                    this.x += this.xv;
-                }
-                break;
-            default:
-        }
-    }
-
-    // is there something blocking hitbox from moving down?
-    public is_blocked_down(hitboxes: Hitbox[], new_x: number, new_y: number): boolean {
-        for (let hitbox of hitboxes) {
-            if (new_y + this.height > hitbox.y && 
-                new_y < hitbox.y + hitbox.height &&
-                new_x + this.width > hitbox.x &&
-                new_x < hitbox.x + hitbox.width) {
-                //this.y = hitbox.y - this.height; // sets y so that hitbox is right on top of the hitbox below it
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public is_blocked_left_right(hitboxes: Hitbox[], new_x: number, new_y: number): boolean {
-        for (let hitbox of hitboxes) {
-            if (new_x + this.width > hitbox.x &&
-                new_x < hitbox.x + hitbox.width &&
-                new_y + this.height > hitbox.y &&
-                new_y < hitbox.y + hitbox.height) {
-                return true;
-            }
-        }
-        return false;
+        this.change_x(hitboxes, this.xv * this.f);
+        this.change_y(hitboxes, this.yv + this.g);
     }
     
+    public change_x(hitboxes: Hitbox[], dx: number): void {
+        this.xv = dx;
+        // change the x on the condition that if we change it, it won't be colliding with another hitbox
+        if (!hitboxes.some((hitbox) => this.overlaps_with(hitbox, this.x + dx, this.y))) {
+            this.x += this.xv;
+        }
+    }
 
+    public change_y(hitboxes: Hitbox[], dy: number): void {
+        // change the y on the condition that if we change it, it won't be colliding with another hitbox
+        if (!hitboxes.some((hitbox) => this.overlaps_with(hitbox, this.x, this.y + dy))) {
+            this.yv = dy;
+            this.y += this.yv;
+        } else {
+            this.yv = 0;
+        }
+    }
+
+    public overlaps_with(hitbox: Hitbox, new_x: number, new_y: number): boolean {
+        return new_y + this.height > hitbox.y && 
+               new_y < hitbox.y + hitbox.height &&
+               new_x + this.width > hitbox.x &&
+               new_x < hitbox.x + hitbox.width;
+    }
 }
