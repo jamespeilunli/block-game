@@ -47,12 +47,12 @@ var Game = /** @class */ (function () {
         this.ctx.closePath();
     };
     Game.prototype.handle_input = function () {
-        if (this.keys.get("w") && this.player.jumpable(this.block_hitboxes))
-            this.player.hitbox.change_y(this.block_hitboxes, -3);
+        if (this.keys.get("w") && this.player.hitbox.yv === 0)
+            this.player.hitbox.set_yv(this.block_hitboxes, -3);
         if (this.keys.get("a"))
-            this.player.hitbox.change_x(this.block_hitboxes, -2.2);
+            this.player.hitbox.set_xv(this.block_hitboxes, -2.2);
         if (this.keys.get("d"))
-            this.player.hitbox.change_x(this.block_hitboxes, 2.2);
+            this.player.hitbox.set_xv(this.block_hitboxes, 2.2);
     };
     return Game;
 }());

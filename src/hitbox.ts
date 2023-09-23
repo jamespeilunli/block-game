@@ -1,8 +1,3 @@
-export enum Direction {
-    UpDown,
-    LeftRight,
-}
-
 export class Hitbox {
     public x: number;
     public y: number;
@@ -32,23 +27,25 @@ export class MovableHitbox extends Hitbox {
     }
 
     public tick(hitboxes: Hitbox[]): void {
-        this.change_x(hitboxes, this.xv * this.f);
-        this.change_y(hitboxes, this.yv + this.g);
+        this.set_xv(hitboxes, this.xv * this.f);
+        this.set_yv(hitboxes, this.yv + this.g);
+        this.x += this.xv;
+        this.y += this.yv;
     }
     
-    public change_x(hitboxes: Hitbox[], dx: number): void {
-        this.xv = dx;
+    public set_xv(hitboxes: Hitbox[], new_xv: number): void {
         // change the x on the condition that if we change it, it won't be colliding with another hitbox
-        if (!hitboxes.some((hitbox) => this.overlaps_with(hitbox, this.x + dx, this.y))) {
-            this.x += this.xv;
+        if (!hitboxes.some((hitbox) => this.overlaps_with(hitbox, this.x + new_xv, this.y))) {
+            this.xv = new_xv;
+        } else {
+            this.xv = 0;
         }
     }
 
-    public change_y(hitboxes: Hitbox[], dy: number): void {
+    public set_yv(hitboxes: Hitbox[], new_yv: number): void {
         // change the y on the condition that if we change it, it won't be colliding with another hitbox
-        if (!hitboxes.some((hitbox) => this.overlaps_with(hitbox, this.x, this.y + dy))) {
-            this.yv = dy;
-            this.y += this.yv;
+        if (!hitboxes.some((hitbox) => this.overlaps_with(hitbox, this.x, this.y + new_yv))) {
+            this.yv = new_yv;
         } else {
             this.yv = 0;
         }

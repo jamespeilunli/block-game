@@ -13,11 +13,6 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-export var Direction;
-(function (Direction) {
-    Direction[Direction["UpDown"] = 0] = "UpDown";
-    Direction[Direction["LeftRight"] = 1] = "LeftRight";
-})(Direction || (Direction = {}));
 var Hitbox = /** @class */ (function () {
     function Hitbox(x, y, width, height) {
         this.x = x;
@@ -43,23 +38,26 @@ var MovableHitbox = /** @class */ (function (_super) {
         return _this;
     }
     MovableHitbox.prototype.tick = function (hitboxes) {
-        this.change_x(hitboxes, this.xv * this.f);
-        this.change_y(hitboxes, this.yv + this.g);
+        this.set_xv(hitboxes, this.xv * this.f);
+        this.set_yv(hitboxes, this.yv + this.g);
+        this.x += this.xv;
+        this.y += this.yv;
     };
-    MovableHitbox.prototype.change_x = function (hitboxes, dx) {
+    MovableHitbox.prototype.set_xv = function (hitboxes, new_xv) {
         var _this = this;
-        this.xv = dx;
         // change the x on the condition that if we change it, it won't be colliding with another hitbox
-        if (!hitboxes.some(function (hitbox) { return _this.overlaps_with(hitbox, _this.x + dx, _this.y); })) {
-            this.x += this.xv;
+        if (!hitboxes.some(function (hitbox) { return _this.overlaps_with(hitbox, _this.x + new_xv, _this.y); })) {
+            this.xv = new_xv;
+        }
+        else {
+            this.xv = 0;
         }
     };
-    MovableHitbox.prototype.change_y = function (hitboxes, dy) {
+    MovableHitbox.prototype.set_yv = function (hitboxes, new_yv) {
         var _this = this;
         // change the y on the condition that if we change it, it won't be colliding with another hitbox
-        if (!hitboxes.some(function (hitbox) { return _this.overlaps_with(hitbox, _this.x, _this.y + dy); })) {
-            this.yv = dy;
-            this.y += this.yv;
+        if (!hitboxes.some(function (hitbox) { return _this.overlaps_with(hitbox, _this.x, _this.y + new_yv); })) {
+            this.yv = new_yv;
         }
         else {
             this.yv = 0;
