@@ -1,0 +1,21 @@
+body {
+    font-family: sans-serif;
+}
+
+header {
+    margin: 15px 0;
+}
+
+main {
+    margin: auto;
+    max-width: 1024px;
+}
+
+.logo {
+    border-radius: 20px;
+    padding: 5px 10px;
+    font-size: 24px;
+    text-decoration: none;
+    color: palevioletred;
+    background: lightcyan;
+}
