@@ -4,9 +4,8 @@ var Player = /** @class */ (function () {
         this.hitbox = new Hitbox(x, y, width, height);
         this.color = color;
     }
-    Player.prototype.tick = function (canvas, ctx) {
+    Player.prototype.tick = function (canvas) {
         this.hitbox.tick(canvas);
-        this.draw(ctx);
     };
     Player.prototype.draw = function (ctx) {
         ctx.beginPath();

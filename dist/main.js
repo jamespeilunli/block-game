@@ -3,18 +3,22 @@ var Game = /** @class */ (function () {
     function Game() {
         this.canvas = document.getElementById("canvas");
         this.ctx = this.canvas.getContext("2d");
-        this.keys = new Map();
         this.canvas.width = 960;
         this.canvas.height = 540;
+        this.keys = new Map();
         this.player = new Player(100, 100, 24, 30, "green");
         this.tick();
     }
     Game.prototype.tick = function () {
         var _this = this;
-        this.background();
-        this.move();
-        this.player.tick(this.canvas, this.ctx);
+        this.handle_input();
+        this.player.tick(this.canvas);
+        this.draw();
         window.requestAnimationFrame(function () { return _this.tick(); });
+    };
+    Game.prototype.draw = function () {
+        this.background();
+        this.player.draw(this.ctx);
     };
     Game.prototype.background = function () {
         this.ctx.beginPath();
@@ -23,7 +27,7 @@ var Game = /** @class */ (function () {
         this.ctx.fill();
         this.ctx.closePath();
     };
-    Game.prototype.move = function () {
+    Game.prototype.handle_input = function () {
         if (this.keys.get("w")) {
             if (game.player.hitbox.is_blocked_down(game.canvas)) {
                 game.player.hitbox.yv = -3;

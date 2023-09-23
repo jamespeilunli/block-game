@@ -9,10 +9,8 @@ export class Player {
         this.color = color;
     }
 
-    public tick(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D): void {
+    public tick(canvas: HTMLCanvasElement): void {
         this.hitbox.tick(canvas);
-
-        this.draw(ctx);
     }
 
     public draw(ctx: CanvasRenderingContext2D): void {

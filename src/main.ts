@@ -3,17 +3,17 @@ import { Player } from "./player.js";
 class Game {
     public readonly canvas: HTMLCanvasElement;
     public readonly ctx: CanvasRenderingContext2D;
-    public player: Player;
     public keys: Map<string, boolean>;
+    public player: Player;
 
     constructor() {
         this.canvas = <HTMLCanvasElement>document.getElementById("canvas")!;
         this.ctx = this.canvas.getContext("2d")!;
 
-        this.keys = new Map<string, boolean>();
-
         this.canvas.width = 960;
         this.canvas.height = 540;
+
+        this.keys = new Map<string, boolean>();
 
         this.player = new Player(100, 100, 24, 30, "green");
 
@@ -21,13 +21,18 @@ class Game {
     }
 
     public tick(): void {
-        this.background();
+        this.handle_input();
 
-        this.move();
+        this.player.tick(this.canvas);
 
-        this.player.tick(this.canvas, this.ctx);
+        this.draw();
 
         window.requestAnimationFrame(() => this.tick());
+    }
+
+    public draw(): void {
+        this.background();
+        this.player.draw(this.ctx);
     }
 
     public background(): void {
@@ -38,7 +43,7 @@ class Game {
         this.ctx.closePath();
     }
 
-    public move(): void {
+    public handle_input(): void {
         if (this.keys.get("w")) {
             if (game.player.hitbox.is_blocked_down(game.canvas)) {
                 game.player.hitbox.yv = -3;
