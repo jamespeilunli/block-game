@@ -21,19 +21,15 @@ var Hitbox = /** @class */ (function () {
         this.height = height;
         this.collidable = collidable;
     }
-    Hitbox.prototype.draw = function (ctx, color, width) {
+    Hitbox.prototype.draw = function (display, color, width) {
         if (color === void 0) { color = "green"; }
         if (width === void 0) { width = 2; }
-        ctx.beginPath();
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.strokeStyle = color;
-        ctx.lineWidth = width;
-        ctx.stroke();
-        ctx.closePath();
+        display.rect(this.x, this.y, this.width, this.height, color, true, width);
     };
-    Hitbox.prototype.is_selected = function (mouse_x, mouse_y) {
-        return Math.floor(this.x / 12) === Math.floor(mouse_x / 12) &&
-            Math.floor(this.y / 12) === Math.floor(mouse_y / 12);
+    Hitbox.prototype.is_selected = function (display, mouse_x, mouse_y) {
+        var dx = mouse_x - display.to_canvas_x(this.x);
+        var dy = mouse_y - display.to_canvas_y(this.y);
+        return 0 <= dx && dx < 12 && 0 <= dy && dy < 12;
     };
     return Hitbox;
 }());
@@ -53,12 +49,12 @@ var MovableHitbox = /** @class */ (function (_super) {
         return _this;
     }
     MovableHitbox.prototype.tick = function (hitboxes) {
-        this.set_xv(hitboxes, this.xv * this.f);
-        this.set_yv(hitboxes, this.yv + this.g);
+        this.set_xv(this.xv * this.f, hitboxes);
+        this.set_yv(this.yv + this.g, hitboxes);
         this.x += this.xv;
         this.y += this.yv;
     };
-    MovableHitbox.prototype.set_xv = function (hitboxes, new_xv) {
+    MovableHitbox.prototype.set_xv = function (new_xv, hitboxes) {
         var _this = this;
         // change the x on the condition that if we change it, it won't be colliding with another hitbox
         if (!hitboxes.some(function (hitbox) { return _this.collides_with(hitbox, _this.x + new_xv, _this.y); })) {
@@ -68,7 +64,7 @@ var MovableHitbox = /** @class */ (function (_super) {
             this.xv = 0;
         }
     };
-    MovableHitbox.prototype.set_yv = function (hitboxes, new_yv) {
+    MovableHitbox.prototype.set_yv = function (new_yv, hitboxes) {
         var _this = this;
         // change the y on the condition that if we change it, it won't be colliding with another hitbox
         if (!hitboxes.some(function (hitbox) { return _this.collides_with(hitbox, _this.x, _this.y + new_yv); })) {

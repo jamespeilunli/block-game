@@ -4,12 +4,8 @@ var Block = /** @class */ (function () {
         this.hitbox = new Hitbox(x, y, size, size, collidable);
         this.color = color;
     }
-    Block.prototype.draw = function (ctx) {
-        ctx.beginPath();
-        ctx.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.closePath();
+    Block.prototype.draw = function (display) {
+        display.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, this.color);
     };
     Block.prototype.destroy = function () {
         this.hitbox.collidable = false;

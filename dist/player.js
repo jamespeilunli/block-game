@@ -7,12 +7,8 @@ var Player = /** @class */ (function () {
     Player.prototype.tick = function (block_hitboxes) {
         this.hitbox.tick(block_hitboxes);
     };
-    Player.prototype.draw = function (ctx) {
-        ctx.beginPath();
-        ctx.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.closePath();
+    Player.prototype.draw = function (display) {
+        display.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, this.color);
     };
     return Player;
 }());

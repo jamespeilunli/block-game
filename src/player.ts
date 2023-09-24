@@ -1,4 +1,5 @@
 import { MovableHitbox, Hitbox } from "./hitbox.js";
+import { Display } from "./display.js";
 
 export class Player {
     public hitbox: MovableHitbox;
@@ -13,11 +14,7 @@ export class Player {
         this.hitbox.tick(block_hitboxes);
     }
 
-    public draw(ctx: CanvasRenderingContext2D): void {
-        ctx.beginPath();
-        ctx.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.closePath();
+    public draw(display: Display): void {
+        display.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, this.color);
     }
 }

@@ -38,10 +38,10 @@ export class Input {
 
     public tick(world: World): void {
         if (this.keys.get("w") && world.player.hitbox.yv === 0)
-            world.player.hitbox.set_yv(world.block_hitboxes, -3);
+            world.player.hitbox.set_yv(-3, world.block_hitboxes);
         if (this.keys.get("a"))
-            world.player.hitbox.set_xv(world.block_hitboxes, -2.2);
+            world.player.hitbox.set_xv(-2.2, world.block_hitboxes);
         if (this.keys.get("d"))
-            world.player.hitbox.set_xv(world.block_hitboxes, 2.2);
+            world.player.hitbox.set_xv(2.2, world.block_hitboxes);
     }
 }

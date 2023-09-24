@@ -5,7 +5,7 @@ var World = /** @class */ (function () {
         this.block_size = block_size;
         this.canvas_width = canvas_width;
         this.canvas_height = canvas_height;
-        this.player = new Player(120, 12, 24, 24, "green");
+        this.player = new Player(0, 0, 24, 24, "green");
         this.blocks = [];
         this.block_hitboxes = [];
         for (var i = 0; i < this.canvas_height / this.block_size; i++) {
@@ -19,13 +19,13 @@ var World = /** @class */ (function () {
             this.blocks.push(new_row);
         }
     }
-    World.prototype.tick = function (input) {
+    World.prototype.tick = function (display, input) {
         this.player.tick(this.block_hitboxes);
         for (var _i = 0, _a = this.blocks; _i < _a.length; _i++) {
             var block_row = _a[_i];
             for (var _b = 0, block_row_1 = block_row; _b < block_row_1.length; _b++) {
                 var block = block_row_1[_b];
-                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
+                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
                     if (input.mouse_down)
                         block.destroy();
                     if (input.keys.get(" "))
@@ -34,30 +34,26 @@ var World = /** @class */ (function () {
             }
         }
     };
-    World.prototype.draw = function (ctx, input) {
-        this.background(ctx);
-        this.player.draw(ctx);
+    World.prototype.draw = function (display, input) {
+        this.background(display);
         for (var _i = 0, _a = this.blocks; _i < _a.length; _i++) {
             var block_row = _a[_i];
             for (var _b = 0, block_row_2 = block_row; _b < block_row_2.length; _b++) {
                 var block = block_row_2[_b];
                 if (block.hitbox.collidable)
-                    block.draw(ctx);
-                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
+                    block.draw(display);
+                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
                     if (input.mouse_down)
-                        block.hitbox.draw(ctx, "red");
+                        block.hitbox.draw(display, "red");
                     else
-                        block.hitbox.draw(ctx);
+                        block.hitbox.draw(display);
                 }
             }
         }
+        this.player.draw(display);
     };
-    World.prototype.background = function (ctx) {
-        ctx.beginPath();
-        ctx.rect(0, 0, this.canvas_width, this.canvas_height);
-        ctx.fillStyle = "black";
-        ctx.fill();
-        ctx.closePath();
+    World.prototype.background = function (display) {
+        display.absolute_rect(0, 0, display.canvas.width, display.canvas.height, "black");
     };
     return World;
 }());

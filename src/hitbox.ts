@@ -1,3 +1,5 @@
+import { Display } from "./display.js";
+
 export class Hitbox {
     public x: number;
     public y: number;
@@ -13,18 +15,14 @@ export class Hitbox {
         this.collidable = collidable;
     }
 
-    public draw(ctx: CanvasRenderingContext2D, color = "green", width = 2) {
-        ctx.beginPath();
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.strokeStyle = color;
-        ctx.lineWidth = width;
-        ctx.stroke();
-        ctx.closePath();
+    public draw(display: Display, color = "green", width = 2): void {
+        display.rect(this.x, this.y, this.width, this.height, color, true, width);
     }
 
-    public is_selected(mouse_x: number, mouse_y: number) {
-        return Math.floor(this.x / 12) === Math.floor(mouse_x / 12) &&
-               Math.floor(this.y / 12) === Math.floor(mouse_y / 12);
+    public is_selected(display: Display, mouse_x: number, mouse_y: number): boolean {
+        let dx = mouse_x - display.to_canvas_x(this.x);
+        let dy = mouse_y - display.to_canvas_y(this.y);
+        return 0 <= dx && dx < 12 && 0 <= dy && dy < 12;
     }
 }
 
@@ -43,13 +41,13 @@ export class MovableHitbox extends Hitbox {
     }
 
     public tick(hitboxes: Hitbox[]): void {
-        this.set_xv(hitboxes, this.xv * this.f);
-        this.set_yv(hitboxes, this.yv + this.g);
+        this.set_xv(this.xv * this.f, hitboxes);
+        this.set_yv(this.yv + this.g, hitboxes);
         this.x += this.xv;
         this.y += this.yv;
     }
 
-    public set_xv(hitboxes: Hitbox[], new_xv: number): void {
+    public set_xv(new_xv: number, hitboxes: Hitbox[]): void {
         // change the x on the condition that if we change it, it won't be colliding with another hitbox
         if (!hitboxes.some((hitbox) => this.collides_with(hitbox, this.x + new_xv, this.y))) {
             this.xv = new_xv;
@@ -58,7 +56,7 @@ export class MovableHitbox extends Hitbox {
         }
     }
 
-    public set_yv(hitboxes: Hitbox[], new_yv: number): void {
+    public set_yv(new_yv: number, hitboxes: Hitbox[]): void {
         // change the y on the condition that if we change it, it won't be colliding with another hitbox
         if (!hitboxes.some((hitbox) => this.collides_with(hitbox, this.x, this.y + new_yv))) {
             this.yv = new_yv;

@@ -2,6 +2,7 @@ import { Player } from "./player.js";
 import { Block } from "./block.js";
 import { Hitbox } from "./hitbox.js";
 import { Input } from "./input.js";
+import { Display } from "./display.js";
 
 export class World {
     public canvas_width: number;
@@ -16,7 +17,7 @@ export class World {
         this.canvas_width = canvas_width;
         this.canvas_height = canvas_height;
 
-        this.player = new Player(120, 12, 24, 24, "green");
+        this.player = new Player(0, 0, 24, 24, "green");
 
         this.blocks = [];
         this.block_hitboxes = [];
@@ -32,12 +33,12 @@ export class World {
         }
     }
 
-    public tick(input: Input): void {
+    public tick(display: Display, input: Input): void {
         this.player.tick(this.block_hitboxes);
 
         for (let block_row of this.blocks) {
             for (let block of block_row) {
-                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
+                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
                     if (input.mouse_down) block.destroy();
                     if (input.keys.get(" ")) block.create();
                 }
@@ -45,28 +46,24 @@ export class World {
         }
     }
 
-    public draw(ctx: CanvasRenderingContext2D, input: Input): void {
-        this.background(ctx);
-
-        this.player.draw(ctx);
+    public draw(display: Display, input: Input): void {
+        this.background(display);
 
         for (let block_row of this.blocks) {
             for (let block of block_row) {
-                if (block.hitbox.collidable) block.draw(ctx);
+                if (block.hitbox.collidable) block.draw(display);
 
-                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
-                    if (input.mouse_down) block.hitbox.draw(ctx, "red");
-                    else block.hitbox.draw(ctx);
+                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
+                    if (input.mouse_down) block.hitbox.draw(display, "red");
+                    else block.hitbox.draw(display);
                 }
             }
         }
+
+        this.player.draw(display);
     }
 
-    public background(ctx: CanvasRenderingContext2D): void {
-        ctx.beginPath();
-        ctx.rect(0, 0, this.canvas_width, this.canvas_height);
-        ctx.fillStyle = "black";
-        ctx.fill();
-        ctx.closePath();
+    public background(display: Display): void {
+        display.absolute_rect(0, 0, display.canvas.width, display.canvas.height, "black");
     }
 }
