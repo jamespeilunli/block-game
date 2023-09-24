@@ -11,6 +11,10 @@ main {
     max-width: 1024px;
 }
 
+#canvas {
+    border: 1px solid black;
+}
+
 .logo {
     border-radius: 20px;
     padding: 5px 10px;

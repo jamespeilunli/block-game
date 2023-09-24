@@ -1,5 +1,4 @@
 import { MovableHitbox, Hitbox } from "./hitbox.js";
-import { Block } from "./block.js";
 
 export class Player {
     public hitbox: MovableHitbox;
