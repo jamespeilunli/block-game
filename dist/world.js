@@ -8,12 +8,9 @@ var World = /** @class */ (function () {
         this.player = new Player(0, 0, 24, 24, "green");
         this.blocks = [];
         this.block_hitboxes = [];
-        for (var i = 0; i < this.canvas_height / this.block_size; i++) {
+        for (var i = 10; i < this.canvas_height / this.block_size; i++) {
             for (var j = 0; j < this.canvas_width / this.block_size; j++) {
-                var collidable = i > 10;
-                var block = new Block(j * this.block_size, i * this.block_size, collidable, this.block_size, "white");
-                this.blocks.push(block);
-                this.block_hitboxes.push(block.hitbox);
+                this.new_block(j * this.block_size, i * this.block_size, true, this.block_size + 1, "white");
             }
         }
     }

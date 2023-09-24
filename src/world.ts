@@ -21,12 +21,9 @@ export class World {
 
         this.blocks = [];
         this.block_hitboxes = [];
-        for (let i = 0; i < this.canvas_height / this.block_size; i++) {
+        for (let i = 10; i < this.canvas_height / this.block_size; i++) {
             for (let j = 0; j < this.canvas_width / this.block_size; j++) {
-                let collidable = i > 10;
-                let block = new Block(j * this.block_size, i * this.block_size, collidable, this.block_size, "white");
-                this.blocks.push(block);
-                this.block_hitboxes.push(block.hitbox);
+                this.new_block(j * this.block_size, i * this.block_size, true, this.block_size+1, "white");
             }
         }
     }
