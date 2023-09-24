@@ -7,6 +7,9 @@ var Input = /** @class */ (function () {
         this.mouse_down = false;
         window.addEventListener("keydown", function (event) {
             _this.keys.set(event.key, true);
+            // prevent scroll on pressing space
+            if (event.key === " " && event.target == document.body)
+                event.preventDefault();
         });
         window.addEventListener("keyup", function (event) {
             _this.keys.set(event.key, false);

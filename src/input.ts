@@ -14,6 +14,8 @@ export class Input {
 
         window.addEventListener("keydown", (event) => {
             this.keys.set(event.key, true);
+            // prevent scroll on pressing space
+            if (event.key === " " && event.target == document.body) event.preventDefault(); 
         });
 
         window.addEventListener("keyup", (event) => {
