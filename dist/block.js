@@ -10,9 +10,6 @@ var Block = /** @class */ (function () {
     Block.prototype.destroy = function () {
         this.hitbox.collidable = false;
     };
-    Block.prototype.create = function () {
-        this.hitbox.collidable = true;
-    };
     return Block;
 }());
 export { Block };

@@ -18,26 +18,29 @@ var Display = /** @class */ (function () {
     Display.prototype.absolute_rect = function (canvas_x, canvas_y, width, height, color, outline, stroke_width) {
         if (outline === void 0) { outline = false; }
         if (stroke_width === void 0) { stroke_width = 2; }
-        this.ctx.beginPath();
-        this.ctx.rect(canvas_x, canvas_y, width, height);
         if (outline) {
             this.ctx.lineWidth = stroke_width;
             this.ctx.strokeStyle = color;
-            this.ctx.stroke();
+            this.ctx.strokeRect(canvas_x, canvas_y, width, height);
         }
         else {
             this.ctx.fillStyle = color;
-            this.ctx.fill();
+            this.ctx.fillRect(canvas_x, canvas_y, width, height);
         }
-        this.ctx.closePath();
     };
     // convert from x in game to x in the canvas (canvas x is relative to player x, and player is in the center)
     Display.prototype.to_canvas_x = function (x) {
         return x - this.player_hitbox.x + this.canvas.width / 2;
     };
+    Display.prototype.to_world_x = function (canvas_x) {
+        return canvas_x - this.canvas.width / 2 + this.player_hitbox.x;
+    };
     // convert from y in game to y in the canvas (canvas y is relative to player y, and player is in the center)
     Display.prototype.to_canvas_y = function (y) {
         return y - this.player_hitbox.y + this.canvas.height / 2;
+    };
+    Display.prototype.to_world_y = function (canvas_y) {
+        return canvas_y - this.canvas.height / 2 + this.player_hitbox.y;
     };
     return Display;
 }());

@@ -9,7 +9,7 @@ export class World {
     public canvas_height: number;
     public block_size: number;
     public player: Player;
-    public blocks: Block[][];
+    public blocks: Block[];
     public block_hitboxes: Hitbox[];
 
     constructor(canvas_width: number, canvas_height: number, block_size: number) {
@@ -22,25 +22,24 @@ export class World {
         this.blocks = [];
         this.block_hitboxes = [];
         for (let i = 0; i < this.canvas_height / this.block_size; i++) {
-            let new_row: Block[] = [];
             for (let j = 0; j < this.canvas_width / this.block_size; j++) {
                 let collidable = i > 10;
                 let block = new Block(j * this.block_size, i * this.block_size, collidable, this.block_size, "white");
-                new_row.push(block);
+                this.blocks.push(block);
                 this.block_hitboxes.push(block.hitbox);
             }
-            this.blocks.push(new_row);
         }
     }
 
     public tick(display: Display, input: Input): void {
         this.player.tick(this.block_hitboxes);
 
-        for (let block_row of this.blocks) {
-            for (let block of block_row) {
-                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
-                    if (input.mouse_down) block.destroy();
-                    if (input.keys.get(" ")) block.create();
+        if (input.mouse_down) {
+            let i = this.blocks.length;
+            while (i--) {
+                if (this.blocks[i].hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
+                    this.blocks.splice(i, 1);
+                    this.block_hitboxes.splice(i, 1);
                 }
             }
         }
@@ -49,15 +48,8 @@ export class World {
     public draw(display: Display, input: Input): void {
         this.background(display);
 
-        for (let block_row of this.blocks) {
-            for (let block of block_row) {
-                if (block.hitbox.collidable) block.draw(display);
-
-                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
-                    if (input.mouse_down) block.hitbox.draw(display, "red");
-                    else block.hitbox.draw(display);
-                }
-            }
+        for (let block of this.blocks) {
+            if (block.hitbox.collidable) block.draw(display);
         }
 
         this.player.draw(display);
@@ -65,5 +57,11 @@ export class World {
 
     public background(display: Display): void {
         display.absolute_rect(0, 0, display.canvas.width, display.canvas.height, "black");
+    }
+
+    public new_block(x: number, y: number, collidable: boolean, size: number, color: string) {
+        let block = new Block(x, y, collidable, size, color);
+        this.blocks.push(block);
+        this.block_hitboxes.push(block.hitbox);
     }
 }

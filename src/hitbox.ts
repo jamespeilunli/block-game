@@ -15,10 +15,6 @@ export class Hitbox {
         this.collidable = collidable;
     }
 
-    public draw(display: Display, color = "green", width = 2): void {
-        display.rect(this.x, this.y, this.width, this.height, color, true, width);
-    }
-
     public is_selected(display: Display, mouse_x: number, mouse_y: number): boolean {
         let dx = mouse_x - display.to_canvas_x(this.x);
         let dy = mouse_y - display.to_canvas_y(this.y);

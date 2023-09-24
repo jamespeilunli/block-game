@@ -24,17 +24,14 @@ export class Display {
     }
 
     public absolute_rect(canvas_x: number, canvas_y: number, width: number, height: number, color: string, outline = false, stroke_width = 2): void {
-        this.ctx.beginPath();
-        this.ctx.rect(canvas_x, canvas_y, width, height);
         if (outline) {
             this.ctx.lineWidth = stroke_width;
             this.ctx.strokeStyle = color;
-            this.ctx.stroke();
+            this.ctx.strokeRect(canvas_x, canvas_y, width, height);
         } else {
             this.ctx.fillStyle = color;
-            this.ctx.fill();
+            this.ctx.fillRect(canvas_x, canvas_y, width, height);
         }
-        this.ctx.closePath();
     }
 
     // convert from x in game to x in the canvas (canvas x is relative to player x, and player is in the center)
@@ -42,8 +39,16 @@ export class Display {
         return x - this.player_hitbox.x + this.canvas.width / 2;
     }
 
+    public to_world_x(canvas_x: number): number {
+        return canvas_x - this.canvas.width / 2 + this.player_hitbox.x;
+    }
+
     // convert from y in game to y in the canvas (canvas y is relative to player y, and player is in the center)
     public to_canvas_y(y: number): number {
         return y - this.player_hitbox.y + this.canvas.height / 2;
+    }
+
+    public to_world_y(canvas_y: number): number {
+        return canvas_y - this.canvas.height / 2 + this.player_hitbox.y;
     }
 }

@@ -21,11 +21,6 @@ var Hitbox = /** @class */ (function () {
         this.height = height;
         this.collidable = collidable;
     }
-    Hitbox.prototype.draw = function (display, color, width) {
-        if (color === void 0) { color = "green"; }
-        if (width === void 0) { width = 2; }
-        display.rect(this.x, this.y, this.width, this.height, color, true, width);
-    };
     Hitbox.prototype.is_selected = function (display, mouse_x, mouse_y) {
         var dx = mouse_x - display.to_canvas_x(this.x);
         var dy = mouse_y - display.to_canvas_y(this.y);

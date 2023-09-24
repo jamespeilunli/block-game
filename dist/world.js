@@ -9,27 +9,22 @@ var World = /** @class */ (function () {
         this.blocks = [];
         this.block_hitboxes = [];
         for (var i = 0; i < this.canvas_height / this.block_size; i++) {
-            var new_row = [];
             for (var j = 0; j < this.canvas_width / this.block_size; j++) {
                 var collidable = i > 10;
                 var block = new Block(j * this.block_size, i * this.block_size, collidable, this.block_size, "white");
-                new_row.push(block);
+                this.blocks.push(block);
                 this.block_hitboxes.push(block.hitbox);
             }
-            this.blocks.push(new_row);
         }
     }
     World.prototype.tick = function (display, input) {
         this.player.tick(this.block_hitboxes);
-        for (var _i = 0, _a = this.blocks; _i < _a.length; _i++) {
-            var block_row = _a[_i];
-            for (var _b = 0, block_row_1 = block_row; _b < block_row_1.length; _b++) {
-                var block = block_row_1[_b];
-                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
-                    if (input.mouse_down)
-                        block.destroy();
-                    if (input.keys.get(" "))
-                        block.create();
+        if (input.mouse_down) {
+            var i = this.blocks.length;
+            while (i--) {
+                if (this.blocks[i].hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
+                    this.blocks.splice(i, 1);
+                    this.block_hitboxes.splice(i, 1);
                 }
             }
         }
@@ -37,23 +32,19 @@ var World = /** @class */ (function () {
     World.prototype.draw = function (display, input) {
         this.background(display);
         for (var _i = 0, _a = this.blocks; _i < _a.length; _i++) {
-            var block_row = _a[_i];
-            for (var _b = 0, block_row_2 = block_row; _b < block_row_2.length; _b++) {
-                var block = block_row_2[_b];
-                if (block.hitbox.collidable)
-                    block.draw(display);
-                if (block.hitbox.is_selected(display, input.mouse_x, input.mouse_y)) {
-                    if (input.mouse_down)
-                        block.hitbox.draw(display, "red");
-                    else
-                        block.hitbox.draw(display);
-                }
-            }
+            var block = _a[_i];
+            if (block.hitbox.collidable)
+                block.draw(display);
         }
         this.player.draw(display);
     };
     World.prototype.background = function (display) {
         display.absolute_rect(0, 0, display.canvas.width, display.canvas.height, "black");
+    };
+    World.prototype.new_block = function (x, y, collidable, size, color) {
+        var block = new Block(x, y, collidable, size, color);
+        this.blocks.push(block);
+        this.block_hitboxes.push(block.hitbox);
     };
     return World;
 }());

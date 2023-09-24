@@ -17,8 +17,4 @@ export class Block {
     public destroy(): void {
         this.hitbox.collidable = false;
     }
-
-    public create(): void {
-        this.hitbox.collidable = true;
-    }
 }
