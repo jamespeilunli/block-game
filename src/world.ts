@@ -37,8 +37,9 @@ export class World {
 
         for (let block_row of this.blocks) {
             for (let block of block_row) {
-                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y) && input.mouse_down) {
-                    block.destroy();
+                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
+                    if (input.mouse_down) block.destroy();
+                    if (input.keys.get(" ")) block.create();
                 }
             }
         }
@@ -46,18 +47,16 @@ export class World {
 
     public draw(ctx: CanvasRenderingContext2D, input: Input): void {
         this.background(ctx);
-        
+
         this.player.draw(ctx);
 
         for (let block_row of this.blocks) {
             for (let block of block_row) {
-                block.draw(ctx);
+                if (block.hitbox.collidable) block.draw(ctx);
 
                 if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
-                    block.hitbox.draw(ctx);
-                    if (input.mouse_down) {
-                        block.hitbox.draw(ctx, "red");
-                    }
+                    if (input.mouse_down) block.hitbox.draw(ctx, "red");
+                    else block.hitbox.draw(ctx);
                 }
             }
         }

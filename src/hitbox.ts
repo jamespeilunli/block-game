@@ -48,7 +48,7 @@ export class MovableHitbox extends Hitbox {
         this.x += this.xv;
         this.y += this.yv;
     }
-    
+
     public set_xv(hitboxes: Hitbox[], new_xv: number): void {
         // change the x on the condition that if we change it, it won't be colliding with another hitbox
         if (!hitboxes.some((hitbox) => this.collides_with(hitbox, this.x + new_xv, this.y))) {
@@ -69,7 +69,7 @@ export class MovableHitbox extends Hitbox {
 
     public collides_with(hitbox: Hitbox, new_x: number, new_y: number): boolean {
         return hitbox.collidable &&
-               new_y + this.height > hitbox.y && 
+               new_y + this.height > hitbox.y &&
                new_y < hitbox.y + hitbox.height &&
                new_x + this.width > hitbox.x &&
                new_x < hitbox.x + hitbox.width;

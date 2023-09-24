@@ -25,8 +25,11 @@ var World = /** @class */ (function () {
             var block_row = _a[_i];
             for (var _b = 0, block_row_1 = block_row; _b < block_row_1.length; _b++) {
                 var block = block_row_1[_b];
-                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y) && input.mouse_down) {
-                    block.destroy();
+                if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
+                    if (input.mouse_down)
+                        block.destroy();
+                    if (input.keys.get(" "))
+                        block.create();
                 }
             }
         }
@@ -38,12 +41,13 @@ var World = /** @class */ (function () {
             var block_row = _a[_i];
             for (var _b = 0, block_row_2 = block_row; _b < block_row_2.length; _b++) {
                 var block = block_row_2[_b];
-                block.draw(ctx);
+                if (block.hitbox.collidable)
+                    block.draw(ctx);
                 if (block.hitbox.is_selected(input.mouse_x, input.mouse_y)) {
-                    block.hitbox.draw(ctx);
-                    if (input.mouse_down) {
+                    if (input.mouse_down)
                         block.hitbox.draw(ctx, "red");
-                    }
+                    else
+                        block.hitbox.draw(ctx);
                 }
             }
         }
