@@ -34,7 +34,7 @@ var Input = /** @class */ (function () {
         if (this.keys.get("d"))
             world.player.hitbox.set_xv(2.2, world.block_hitboxes);
         if (this.keys.get(" "))
-            world.new_block(this.selected_area_x(), this.selected_area_y(), true, 13, "black");
+            world.new_block(this.selected_area_x(), this.selected_area_y(), true, 13, "white");
     };
     Input.prototype.draw = function () {
         this.display.rect(this.selected_area_x(), this.selected_area_y(), 12, 12, this.mouse_down ? "red" : "green", true, 2);
