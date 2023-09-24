@@ -1,4 +1,4 @@
-import { Hitbox } from "./hitbox.js";
+import { Hitbox } from "./hit_box.js";
 var Display = /** @class */ (function () {
     function Display() {
         this.canvas = document.getElementById("canvas");

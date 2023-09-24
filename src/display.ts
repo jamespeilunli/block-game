@@ -1,4 +1,4 @@
-import { Hitbox } from "./hitbox.js";
+import { Hitbox } from "./hit_box.js";
 
 export class Display {
     public readonly canvas: HTMLCanvasElement;

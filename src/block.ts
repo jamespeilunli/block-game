@@ -1,4 +1,4 @@
-import { Hitbox, MovableHitbox } from "./hitbox.js";
+import { Hitbox, MovableHitbox } from "./hit_box.js";
 import { Display } from "./display.js";
 
 export class Block {

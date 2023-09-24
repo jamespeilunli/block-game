@@ -1,4 +1,4 @@
-import { Hitbox } from "./hitbox.js";
+import { Hitbox } from "./hit_box.js";
 var Block = /** @class */ (function () {
     function Block(x, y, collidable, size, color) {
         this.hitbox = new Hitbox(x, y, size, size, collidable);

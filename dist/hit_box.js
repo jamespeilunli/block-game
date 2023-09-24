@@ -79,4 +79,4 @@ var MovableHitbox = /** @class */ (function (_super) {
     return MovableHitbox;
 }(Hitbox));
 export { MovableHitbox };
-//# sourceMappingURL=hitbox.js.map
+//# sourceMappingURL=hit_box.js.map

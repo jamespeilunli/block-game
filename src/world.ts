@@ -1,6 +1,6 @@
 import { Player } from "./player.js";
 import { Block } from "./block.js";
-import { Hitbox } from "./hitbox.js";
+import { Hitbox } from "./hit_box.js";
 import { Input } from "./input.js";
 import { Display } from "./display.js";
 

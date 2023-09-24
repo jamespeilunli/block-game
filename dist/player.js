@@ -1,4 +1,4 @@
-import { MovableHitbox } from "./hitbox.js";
+import { MovableHitbox } from "./hit_box.js";
 var Player = /** @class */ (function () {
     function Player(x, y, width, height, color) {
         this.hitbox = new MovableHitbox(x, y, width, height, true);
