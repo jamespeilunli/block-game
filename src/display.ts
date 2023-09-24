@@ -11,23 +11,7 @@ export class Display {
 
         this.canvas.width = 960;
         this.canvas.height = 540;
-        /*
-
-       // Set display size (css pixels).
-        const width= 960;
-        const height = 540;
-        this.canvas.style.width = `${width}px`;
-        this.canvas.style.height = `${height}px`;
-
-        // Set actual size in memory (scaled to account for extra pixel density).
-        const scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
-        this.canvas.width = Math.floor(width* scale);
-        this.canvas.height = Math.floor(height* scale);
-
-        // Normalize coordinate system to use CSS pixels.
-        this.ctx.scale(scale, scale);
-        */
-        this.ctx.imageSmoothingEnabled = false;
+        this.ctx.imageSmoothingEnabled = false; // make images clear
 
         this.player_hitbox = new Hitbox(0, 0, 0, 0, false);
     }
