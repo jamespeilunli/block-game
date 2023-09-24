@@ -5,10 +5,30 @@ var Display = /** @class */ (function () {
         this.ctx = this.canvas.getContext("2d");
         this.canvas.width = 960;
         this.canvas.height = 540;
+        /*
+
+       // Set display size (css pixels).
+        const width= 960;
+        const height = 540;
+        this.canvas.style.width = `${width}px`;
+        this.canvas.style.height = `${height}px`;
+
+        // Set actual size in memory (scaled to account for extra pixel density).
+        const scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+        this.canvas.width = Math.floor(width* scale);
+        this.canvas.height = Math.floor(height* scale);
+
+        // Normalize coordinate system to use CSS pixels.
+        this.ctx.scale(scale, scale);
+        */
+        this.ctx.imageSmoothingEnabled = false;
         this.player_hitbox = new Hitbox(0, 0, 0, 0, false);
     }
     Display.prototype.set_player_hitbox = function (player_hitbox) {
         this.player_hitbox = player_hitbox;
+    };
+    Display.prototype.image = function (x, y, width, height, id) {
+        this.ctx.drawImage(document.getElementById(id), this.to_canvas_x(x), this.to_canvas_y(y), width, height);
     };
     Display.prototype.rect = function (x, y, width, height, color, outline, stroke_width) {
         if (outline === void 0) { outline = false; }

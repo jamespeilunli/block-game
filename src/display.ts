@@ -11,6 +11,23 @@ export class Display {
 
         this.canvas.width = 960;
         this.canvas.height = 540;
+        /*
+
+       // Set display size (css pixels).
+        const width= 960;
+        const height = 540;
+        this.canvas.style.width = `${width}px`;
+        this.canvas.style.height = `${height}px`;
+
+        // Set actual size in memory (scaled to account for extra pixel density).
+        const scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+        this.canvas.width = Math.floor(width* scale);
+        this.canvas.height = Math.floor(height* scale);
+
+        // Normalize coordinate system to use CSS pixels.
+        this.ctx.scale(scale, scale);
+        */
+        this.ctx.imageSmoothingEnabled = false;
 
         this.player_hitbox = new Hitbox(0, 0, 0, 0, false);
     }
@@ -18,6 +35,11 @@ export class Display {
     public set_player_hitbox(player_hitbox: Hitbox): void {
         this.player_hitbox = player_hitbox;
     }
+
+    public image(x: number, y: number, width: number, height: number, id: string): void {
+        this.ctx.drawImage(<CanvasImageSource>document.getElementById(id), this.to_canvas_x(x), this.to_canvas_y(y), width, height);
+    }
+
 
     public rect(x: number, y: number, width: number, height: number, color: string, outline = false, stroke_width = 2): void {
         this.absolute_rect(this.to_canvas_x(x), this.to_canvas_y(y), width, height, color, outline, stroke_width);

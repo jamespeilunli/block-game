@@ -17,7 +17,7 @@ export class World {
         this.canvas_width = canvas_width;
         this.canvas_height = canvas_height;
 
-        this.player = new Player(0, 0, 24, 24, "green");
+        this.player = new Player(0, 0, 32, 32, "green");
 
         this.blocks = [];
         this.block_hitboxes = [];
