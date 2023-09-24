@@ -4,30 +4,34 @@ var Game = /** @class */ (function () {
     function Game() {
         this.canvas = document.getElementById("canvas");
         this.ctx = this.canvas.getContext("2d");
-        this.canvas.width = 960;
-        this.canvas.height = 540;
+        this.width = 80;
+        this.height = 45;
+        this.block_size = 12;
+        this.canvas.width = this.width * this.block_size;
+        this.canvas.height = this.height * this.block_size;
         this.keys = new Map();
+        this.mouse_x = -this.block_size;
+        this.mouse_y = -this.block_size;
+        this.mouse_down = false;
         this.player = new Player(120, 12, 24, 24, "green");
         this.blocks = [];
-        for (var i = 0; i < 30; i++) {
-            this.blocks.push(new Block(120 + i * 12, 216, 12, "white"));
+        this.block_hitboxes = [];
+        for (var i = 0; i < this.height; i++) {
+            var new_row = [];
+            for (var j = 0; j < this.width; j++) {
+                var collidable = i > 10;
+                var block = new Block(j * this.block_size, i * this.block_size, collidable, this.block_size, "white");
+                new_row.push(block);
+                this.block_hitboxes.push(block.hitbox);
+            }
+            this.blocks.push(new_row);
         }
-        for (var i = 0; i < 5; i++) {
-            this.blocks.push(new Block(120, 144 + i * 12, 12, "white"));
-        }
-        for (var i = 0; i < 5; i++) {
-            this.blocks.push(new Block(120 + 30 * 12, 144 + i * 12, 12, "white"));
-        }
-        for (var i = 5; i < 15; i++) {
-            this.blocks.push(new Block(144 + i * 12, 180 - 12, 12, "white"));
-        }
-        this.block_hitboxes = this.blocks.map(function (block) { return block.hitbox; });
         this.tick();
     }
     Game.prototype.tick = function () {
         var _this = this;
         this.handle_input();
-        this.player.tick(this.blocks);
+        this.player.tick(this.block_hitboxes);
         this.draw();
         window.requestAnimationFrame(function () { return _this.tick(); });
     };
@@ -35,8 +39,18 @@ var Game = /** @class */ (function () {
         this.background();
         this.player.draw(this.ctx);
         for (var _i = 0, _a = this.blocks; _i < _a.length; _i++) {
-            var block = _a[_i];
-            block.draw(this.ctx);
+            var block_row = _a[_i];
+            for (var _b = 0, block_row_1 = block_row; _b < block_row_1.length; _b++) {
+                var block = block_row_1[_b];
+                block.draw(this.ctx);
+                if (block.hitbox.is_selected(this.mouse_x, this.mouse_y)) {
+                    block.hitbox.draw(this.ctx);
+                    if (this.mouse_down) {
+                        //block.hitbox.draw(this.ctx, "red");
+                        block.destroy();
+                    }
+                }
+            }
         }
     };
     Game.prototype.background = function () {
@@ -64,5 +78,15 @@ window.addEventListener("keydown", function (event) {
 });
 window.addEventListener("keyup", function (event) {
     game.keys.set(event.key, false);
+});
+game.canvas.addEventListener("mousemove", function (event) {
+    game.mouse_x = event.offsetX;
+    game.mouse_y = event.offsetY;
+});
+game.canvas.addEventListener("mousedown", function (event) {
+    game.mouse_down = true;
+});
+game.canvas.addEventListener("mouseup", function (event) {
+    game.mouse_down = false;
 });
 //# sourceMappingURL=main.js.map

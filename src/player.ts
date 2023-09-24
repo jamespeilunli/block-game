@@ -6,12 +6,12 @@ export class Player {
     public color: string;
 
     constructor(x: number, y: number, width: number, height: number, color: string) {
-        this.hitbox = new MovableHitbox(x, y, width, height);
+        this.hitbox = new MovableHitbox(x, y, width, height, true);
         this.color = color;
     }
 
-    public tick(blocks: Block[]): void {
-        this.hitbox.tick(blocks.map((block) => block.hitbox));
+    public tick(block_hitboxes: Hitbox[]): void {
+        this.hitbox.tick(block_hitboxes);
     }
 
     public draw(ctx: CanvasRenderingContext2D): void {
@@ -20,10 +20,5 @@ export class Player {
         ctx.fillStyle = this.color;
         ctx.fill();
         ctx.closePath();
-    }
-
-    public jumpable(hitboxes: Hitbox[]): boolean {
-        //return this.hitbox.is_blocked_down(hitboxes, this.hitbox.x, this.hitbox.y);
-        return this.hitbox.yv === 0;
     }
 }
