@@ -1,9 +1,9 @@
 body {
-    font-family: sans-serif;
+    font-family: "Lato", sans-serif;
 }
 
-header {
-    margin: 15px 0;
+a {
+    color: palevioletred;
 }
 
 main {
@@ -11,8 +11,12 @@ main {
     max-width: 1024px;
 }
 
-#canvas {
-    border: 1px solid black;
+h1, h2, h3, h4, h5, h6 {
+    color: palevioletred;
+}
+
+p {
+    max-width: 60ch;
 }
 
 .logo {
