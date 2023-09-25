@@ -3,18 +3,14 @@ import { Display } from "./display.js";
 
 export class Block {
     public hitbox: Hitbox;
-    public color: string;
+    public texture: string;
 
-    constructor(x: number, y: number, collidable: boolean, size: number, color: string) {
+    constructor(x: number, y: number, collidable: boolean, size: number, texture: string) {
         this.hitbox = new Hitbox(x, y, size, size, collidable);
-        this.color = color;
+        this.texture = texture;
     }
 
     public draw(display: Display): void {
-        display.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, this.color);
-    }
-
-    public destroy(): void {
-        this.hitbox.collidable = false;
+        display.image(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, this.texture);
     }
 }

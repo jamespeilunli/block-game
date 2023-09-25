@@ -23,7 +23,7 @@ export class World {
         this.block_hitboxes = [];
         for (let i = 10; i < this.canvas_height / this.block_size; i++) {
             for (let j = 0; j < this.canvas_width / this.block_size; j++) {
-                this.new_block(j * this.block_size, i * this.block_size, true, this.block_size+1, "white");
+                this.new_block(j * this.block_size, i * this.block_size, true, this.block_size+1, "stone-texture");
             }
         }
     }
@@ -42,7 +42,7 @@ export class World {
         }
     }
 
-    public draw(display: Display, input: Input): void {
+    public draw(display: Display): void {
         this.background(display);
 
         for (let block of this.blocks) {
@@ -53,11 +53,11 @@ export class World {
     }
 
     public background(display: Display): void {
-        display.absolute_rect(0, 0, display.canvas.width, display.canvas.height, "black");
+        display.absolute_image(0, 0, display.canvas.width, display.canvas.height, "sky-texture");
     }
 
-    public new_block(x: number, y: number, collidable: boolean, size: number, color: string) {
-        let block = new Block(x, y, collidable, size, color);
+    public new_block(x: number, y: number, collidable: boolean, size: number, texture: string) {
+        let block = new Block(x, y, collidable, size, texture);
         this.blocks.push(block);
         this.block_hitboxes.push(block.hitbox);
     }

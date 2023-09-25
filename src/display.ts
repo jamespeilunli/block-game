@@ -20,10 +20,13 @@ export class Display {
         this.player_hitbox = player_hitbox;
     }
 
-    public image(x: number, y: number, width: number, height: number, id: string): void {
-        this.ctx.drawImage(<CanvasImageSource>document.getElementById(id), this.to_canvas_x(x), this.to_canvas_y(y), width, height);
+    public image(x: number, y: number, width: number, height: number, texture: string): void {
+        this.absolute_image(this.to_canvas_x(x), this.to_canvas_y(y), width, height, texture);
     }
-
+    
+    public absolute_image(canvas_x: number, canvas_y: number, width: number, height: number, texture: string): void {
+        this.ctx.drawImage(<CanvasImageSource>document.getElementById(texture), canvas_x, canvas_y, width, height);
+    }
 
     public rect(x: number, y: number, width: number, height: number, color: string, outline = false, stroke_width = 2): void {
         this.absolute_rect(this.to_canvas_x(x), this.to_canvas_y(y), width, height, color, outline, stroke_width);

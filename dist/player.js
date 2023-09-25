@@ -8,7 +8,7 @@ var Player = /** @class */ (function () {
         this.hitbox.tick(block_hitboxes);
     };
     Player.prototype.draw = function (display) {
-        display.image(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, "player");
+        display.image(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, "player-texture");
     };
     return Player;
 }());

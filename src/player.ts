@@ -15,6 +15,6 @@ export class Player {
     }
 
     public draw(display: Display): void {
-        display.image(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, "player");
+        display.image(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, "player-texture");
     }
 }

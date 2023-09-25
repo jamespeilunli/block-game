@@ -11,7 +11,7 @@ class Game {
         this.display = new Display();
 
         this.input = new Input(this.display);
-        this.world = new World(this.display.canvas.width, this.display.canvas.height, 12);
+        this.world = new World(this.display.canvas.width, this.display.canvas.height, 15);
 
         this.display.set_player_hitbox(this.world.player.hitbox);
 
@@ -22,8 +22,8 @@ class Game {
         this.input.tick(this.world);
         this.world.tick(this.display, this.input);
 
-        this.world.draw(this.display, this.input);
-        this.input.draw();
+        this.world.draw(this.display);
+        this.input.draw(this.world.block_size);
 
         window.requestAnimationFrame(() => this.tick());
     }

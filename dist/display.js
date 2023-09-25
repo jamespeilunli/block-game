@@ -11,8 +11,11 @@ var Display = /** @class */ (function () {
     Display.prototype.set_player_hitbox = function (player_hitbox) {
         this.player_hitbox = player_hitbox;
     };
-    Display.prototype.image = function (x, y, width, height, id) {
-        this.ctx.drawImage(document.getElementById(id), this.to_canvas_x(x), this.to_canvas_y(y), width, height);
+    Display.prototype.image = function (x, y, width, height, texture) {
+        this.absolute_image(this.to_canvas_x(x), this.to_canvas_y(y), width, height, texture);
+    };
+    Display.prototype.absolute_image = function (canvas_x, canvas_y, width, height, texture) {
+        this.ctx.drawImage(document.getElementById(texture), canvas_x, canvas_y, width, height);
     };
     Display.prototype.rect = function (x, y, width, height, color, outline, stroke_width) {
         if (outline === void 0) { outline = false; }

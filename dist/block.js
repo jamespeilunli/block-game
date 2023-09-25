@@ -1,14 +1,11 @@
 import { Hitbox } from "./hit_box.js";
 var Block = /** @class */ (function () {
-    function Block(x, y, collidable, size, color) {
+    function Block(x, y, collidable, size, texture) {
         this.hitbox = new Hitbox(x, y, size, size, collidable);
-        this.color = color;
+        this.texture = texture;
     }
     Block.prototype.draw = function (display) {
-        display.rect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, this.color);
-    };
-    Block.prototype.destroy = function () {
-        this.hitbox.collidable = false;
+        display.image(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height, this.texture);
     };
     return Block;
 }());

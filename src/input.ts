@@ -8,6 +8,7 @@ export class Input {
     public mouse_x: number;
     public mouse_y: number;
     public mouse_down: boolean;
+    public selected_block_texture: string;
 
     constructor(display: Display) {
         this.display = display;
@@ -15,6 +16,7 @@ export class Input {
         this.mouse_x = -100;
         this.mouse_y = -100;
         this.mouse_down = false;
+        this.selected_block_texture = "stone-texture";
 
         window.addEventListener("keydown", (event) => {
             this.keys.set(event.key, true);
@@ -48,24 +50,30 @@ export class Input {
         if (this.keys.get("d"))
             world.player.hitbox.set_xv(2.2, world.block_hitboxes);
         if (this.keys.get(" "))
-            world.new_block(this.selected_area_x(), this.selected_area_y(), true, 13, "white");
+            world.new_block(this.selected_area_x(world.block_size), this.selected_area_y(world.block_size), true, world.block_size+1, this.selected_block_texture);
+        if (this.keys.get("1"))
+            this.selected_block_texture = "stone-texture";
+        if (this.keys.get("2"))
+            this.selected_block_texture = "grass-texture";
+        if (this.keys.get("3"))
+            this.selected_block_texture = "dirt-texture";
     }
 
-    public draw(): void {
+    public draw(block_size: number): void {
         this.display.rect(
-            this.selected_area_x(),
-            this.selected_area_y(),
-            12, 12, 
+            this.selected_area_x(block_size),
+            this.selected_area_y(block_size),
+            block_size, block_size, 
             this.mouse_down ? "red" : "green", 
             true, 2
         );
     }
 
-    public selected_area_x(): number {
-        return 12 * Math.floor(this.display.to_world_x(this.mouse_x) / 12);
+    public selected_area_x(block_size: number): number {
+        return block_size * Math.floor(this.display.to_world_x(this.mouse_x) / block_size);
     }
 
-    public selected_area_y(): number {
-        return 12 * Math.floor(this.display.to_world_y(this.mouse_y) / 12);
+    public selected_area_y(block_size: number): number {
+        return block_size * Math.floor(this.display.to_world_y(this.mouse_y) / block_size);
     }
 }
